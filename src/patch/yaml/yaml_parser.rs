@@ -19,6 +19,19 @@ pub struct YamlRoot {
     pub body: YamlBody,
 }
 
+impl core::ops::Deref for YamlRoot {
+    type Target = YamlBody;
+    fn deref(&self) -> &Self::Target {
+        &self.body
+    }
+}
+
+impl core::ops::DerefMut for YamlRoot {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.body
+    }
+}
+
 #[derive(Debug, Deserialize)]
 //#[serde(deny_unknown_fields)]
 pub struct YamlBody {
