@@ -1,5 +1,5 @@
 use crate::patch::include;
-use crate::patch::yaml::yaml_parser::{self, YamlBody};
+use crate::patch::yaml::yaml_parser::{self, YamlRoot};
 use anyhow::Result;
 use std::io::Write;
 use std::{
@@ -36,7 +36,7 @@ fn write_file(file_name: &Path, deps: Vec<PathBuf>) -> Result<()> {
 }
 
 pub fn makedeps(yaml_file: &Path, deps_file: &Path) {
-    let mut yaml: YamlBody = yaml_parser::from_path(yaml_file);
+    let mut yaml: YamlRoot = yaml_parser::from_path(yaml_file);
 
     let yaml_dir = yaml_file.parent().expect("wrong yaml file path");
     let deps = include::yaml_includes(&mut yaml, yaml_dir);

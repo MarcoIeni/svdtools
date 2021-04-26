@@ -19,6 +19,19 @@ pub struct YamlRoot {
     pub body: YamlBody,
 }
 
+impl core::ops::Deref for YamlRoot {
+    type Target = YamlBody;
+    fn deref(&self) -> &Self::Target {
+        &self.body
+    }
+}
+
+impl core::ops::DerefMut for YamlRoot {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.body
+    }
+}
+
 #[derive(Debug, Deserialize)]
 //#[serde(deny_unknown_fields)]
 pub struct YamlBody {
@@ -102,7 +115,7 @@ pub struct PeripheralBody {
     pub display_name: Option<String>,
     pub description: Option<String>,
     pub group_name: Option<String>,
-    pub base_address: Option<u32>,
+    pub base_address: Option<u64>,
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -212,8 +225,8 @@ pub struct Device {
 #[serde(deny_unknown_fields)]
 pub struct RegisterProperties {
     pub size: Option<u32>,
-    pub reset_value: Option<u32>,
-    pub reset_mask: Option<u32>,
+    pub reset_value: Option<u64>,
+    pub reset_mask: Option<u64>,
     pub access: Option<Access>,
 }
 

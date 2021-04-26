@@ -15,10 +15,8 @@ pub fn get_description(opt_str: &Option<String>) -> String {
 }
 
 /// Make everything uppercase except first two character, which should be "0x"
-pub fn format_address(hex_address: u32) -> String {
-    let addr = format! {"{:x}", hex_address};
-    let addr = addr.to_uppercase();
-    format!("0x{}", addr)
+pub fn format_address(hex_address: u64) -> String {
+    format!("0x{:X}", hex_address)
 }
 
 #[cfg(test)]
@@ -28,7 +26,7 @@ mod tests {
     #[test]
     fn correctly_format_address() {
         let addr: u32 = 0xde4dBeeF;
-        let formatted_addr = format_address(addr);
+        let formatted_addr = format_address(addr as u64);
         assert_eq!(formatted_addr, "0xDE4DBEEF");
     }
 }

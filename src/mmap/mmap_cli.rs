@@ -76,7 +76,7 @@ fn get_interrupts(peripheral: &Peripheral, mmap: &mut Vec<String>) {
 }
 
 fn get_registers(
-    base_address: u32,
+    base_address: u64,
     registers: &Option<Vec<RegisterCluster>>,
     mmap: &mut Vec<String>,
 ) {
@@ -86,7 +86,7 @@ fn get_registers(
                 RegisterCluster::Register(r) => {
                     let description = str_utils::get_description(&r.description);
                     let access = svd_utils::access_with_brace(r.access);
-                    let addr = base_address + r.address_offset;
+                    let addr = base_address + r.address_offset as u64;
                     let addr = str_utils::format_address(addr);
                     let text =
                         format!("{} B  REGISTER {}{}: {}", addr, r.name, access, description);
@@ -95,7 +95,7 @@ fn get_registers(
                 }
                 RegisterCluster::Cluster(c) => {
                     let description = str_utils::get_description(&c.description);
-                    let addr = base_address + c.address_offset;
+                    let addr = base_address + c.address_offset as u64;
                     format!("{} B  CLUSTER {}: {}", addr, c.name, description);
                 }
             }

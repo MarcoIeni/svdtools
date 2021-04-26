@@ -4,24 +4,22 @@ use svd_parser as svd;
 pub fn modify_cpu(dest: &mut Option<svd::Cpu>, src: &yml::Cpu) {
     match dest {
         None => {
-            unimplemented!("cannot instanciate a cpu struct at the moment, pending until https://github.com/rust-embedded/svd/pull/101/ is merged");
-
-            // *dest = Some(svd::Cpu {
-            //     name: src.name.clone().unwrap_or_default(),
-            //     revision: src.revision.clone().unwrap_or_default(),
-            //     endian: svd::Endian::Other,
-            //     // endian: {
-            //     //     match src.endian {
-            //     //         Some(src_endian) => src_endian.to_svd(),
-            //     //         None => svd::Endian::Other,
-            //     //     }
-            //     // },
-            //     mpu_present: src.mpu_present.unwrap_or_default(),
-            //     fpu_present: src.fpu_present.unwrap_or_default(),
-            //     nvic_priority_bits: src.nvic_prio_bits.unwrap_or_default(),
-            //     has_vendor_systick: src.vendor_systick_config.unwrap_or_default(),
-            //     _extensible: (),
-            // });
+            *dest = Some(
+                svd::cpu::CpuBuilder::default()
+                    .name(src.name.clone().unwrap_or_default())
+                    .revision(src.revision.clone().unwrap_or_default())
+                    .endian(svd::Endian::Other)
+                    // endian(match src.endian {
+                    //     Some(src_endian) => src_endian.to_svd(),
+                    //     None => svd::Endian::Other,
+                    // })
+                    .mpu_present(src.mpu_present.unwrap_or_default())
+                    .fpu_present(src.fpu_present.unwrap_or_default())
+                    .nvic_priority_bits(src.nvic_prio_bits.unwrap_or_default())
+                    .has_vendor_systick(src.vendor_systick_config.unwrap_or_default())
+                    .build()
+                    .unwrap(),
+            )
         }
         Some(dest) => {
             modify_if_some(&mut dest.name, &src.name);
